@@ -1,2 +1,2 @@
 # proof
-Proof la solution pour créer une preuve de propriété foncière immuable, empêchant qu'un même terrain soit vendu plusieurs fois et réduisant les conflits liés à la fraude documentaire.
+Une plateforme centralisée et sécurisée qui enregistre chaque terrain avec un identifiant unique, garde l'historique complet et vérifié de ses propriétaires, et permet à n'importe qui de vérifier une transaction avant d'acheter.
