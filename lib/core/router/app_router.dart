@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../features/auth/presentation/pages/onboarding_page.dart';
 import '../../features/auth/presentation/pages/splash_page.dart';
 
 class AppRouter {
@@ -18,9 +19,15 @@ class AppRouter {
       GoRoute(
         path: '/onboarding',
         builder: (context, state) {
+          return const OnboardingPage();
+        },
+      ),
+      GoRoute(
+        path: '/login',
+        builder: (context, state) {
           return const Scaffold(
             body: Center(
-              child: Text('Onboarding'),
+              child: Text('Connexion'),
             ),
           );
         },
@@ -28,3 +35,5 @@ class AppRouter {
     ],
   );
 }
+
+
