@@ -1,40 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../features/auth/presentation/pages/splash_page.dart';
+
 class AppRouter {
   AppRouter._();
 
   static final GoRouter router = GoRouter(
-    initialLocation: '/home',
+    initialLocation: '/splash',
     routes: [
       GoRoute(
-        path: '/home',
+        path: '/splash',
         builder: (context, state) {
-          return const HomePage();
+          return const SplashPage();
+        },
+      ),
+      GoRoute(
+        path: '/onboarding',
+        builder: (context, state) {
+          return const Scaffold(
+            body: Center(
+              child: Text('Onboarding'),
+            ),
+          );
         },
       ),
     ],
   );
-}
-
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('PROOF'),
-      ),
-      body: const Center(
-        child: Text(
-          'Bienvenue sur PROOF',
-          style: TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
-    );
-  }
 }
