@@ -15,13 +15,16 @@ class HomePage extends StatelessWidget {
             children: [
               _buildHeader(),
               const SizedBox(height: 28),
-              _buildSearchCard(),
-              const SizedBox(height: 28),
+              _buildVerificationCard(),
+              const SizedBox(height: 30),
               _buildSectionTitle('Actions rapides'),
               const SizedBox(height: 14),
               _buildQuickActions(),
               const SizedBox(height: 30),
-              _buildSectionTitle('Derniers terrains consultés'),
+              _buildSectionHeader(
+                title: 'Derniers terrains consultés',
+                action: 'Voir tout',
+              ),
               const SizedBox(height: 14),
               _buildRecentLand(),
             ],
@@ -41,8 +44,8 @@ class HomePage extends StatelessWidget {
             children: [
               Text(
                 'Bonjour, Souveraine',
-                style: TextStyle(
-                  color: const Color(0xFF17211E),
+                style: const TextStyle(
+                  color: Color(0xFF17211E),
                   fontSize: 24,
                   fontWeight: FontWeight.w700,
                   letterSpacing: -0.5,
@@ -60,8 +63,8 @@ class HomePage extends StatelessWidget {
           ),
         ),
         Container(
-          width: 46,
-          height: 46,
+          width: 48,
+          height: 48,
           decoration: BoxDecoration(
             color: const Color(0xFFEAF5EF),
             shape: BoxShape.circle,
@@ -72,13 +75,14 @@ class HomePage extends StatelessWidget {
           child: const Icon(
             Icons.person_outline,
             color: Color(0xFF123B32),
+            size: 23,
           ),
         ),
       ],
     );
   }
 
-  Widget _buildSearchCard() {
+  Widget _buildVerificationCard() {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(20),
@@ -89,20 +93,41 @@ class HomePage extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Vérifier un terrain',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 19,
-              fontWeight: FontWeight.w700,
-            ),
+          Row(
+            children: [
+              Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.10),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: const Icon(
+                  Icons.verified_outlined,
+                  color: Color(0xFF75D59E),
+                  size: 21,
+                ),
+              ),
+              const SizedBox(width: 12),
+              const Expanded(
+                child: Text(
+                  'Vérifier un terrain',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+            ],
           ),
-          const SizedBox(height: 6),
+          const SizedBox(height: 8),
           Text(
-            'Recherchez par identifiant ou QR code.',
+            'Recherchez un terrain par identifiant ou QR code.',
             style: TextStyle(
               color: Colors.white.withValues(alpha: 0.68),
               fontSize: 13,
+              height: 1.4,
             ),
           ),
           const SizedBox(height: 18),
@@ -126,17 +151,25 @@ class HomePage extends StatelessWidget {
                 const SizedBox(width: 11),
                 Expanded(
                   child: Text(
-                    'ID du terrain ou QR code',
+                    'ID du terrain',
                     style: TextStyle(
                       color: Colors.white.withValues(alpha: 0.58),
                       fontSize: 13,
                     ),
                   ),
                 ),
-                const Icon(
-                  Icons.qr_code_scanner,
-                  color: Colors.white,
-                  size: 21,
+                Container(
+                  width: 34,
+                  height: 34,
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.12),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: const Icon(
+                    Icons.qr_code_scanner,
+                    color: Colors.white,
+                    size: 19,
+                  ),
                 ),
               ],
             ),
@@ -157,23 +190,64 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _buildQuickActions() {
+  Widget _buildSectionHeader({
+    required String title,
+    required String action,
+  }) {
     return Row(
       children: [
         Expanded(
-          child: _ActionCard(
-            icon: Icons.add_location_alt_outlined,
-            title: 'Enregistrer',
-            subtitle: 'un terrain',
+          child: _buildSectionTitle(title),
+        ),
+        Text(
+          action,
+          style: const TextStyle(
+            color: Color(0xFF238452),
+            fontSize: 12,
+            fontWeight: FontWeight.w600,
           ),
         ),
-        const SizedBox(width: 12),
-        Expanded(
-          child: _ActionCard(
-            icon: Icons.landscape_outlined,
-            title: 'Mes terrains',
-            subtitle: 'consulter',
-          ),
+      ],
+    );
+  }
+
+  Widget _buildQuickActions() {
+    return Column(
+      children: [
+        Row(
+          children: [
+            Expanded(
+              child: _ActionCard(
+                icon: Icons.add_location_alt_outlined,
+                title: 'Enregistrer',
+                subtitle: 'un terrain',
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: _ActionCard(
+                icon: Icons.landscape_outlined,
+                title: 'Mes terrains',
+                subtitle: 'consulter',
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 12),
+        Row(
+          children: [
+            Expanded(
+              child: _ActionCard(
+                icon: Icons.map_outlined,
+                title: 'Carte',
+                subtitle: 'explorer',
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: _NotificationCard(),
+            ),
+          ],
         ),
       ],
     );
@@ -225,9 +299,18 @@ class HomePage extends StatelessWidget {
                     fontSize: 12,
                   ),
                 ),
+                SizedBox(height: 4),
+                Text(
+                  'Dernière consultation',
+                  style: TextStyle(
+                    color: Color(0xFF9AA39F),
+                    fontSize: 11,
+                  ),
+                ),
               ],
             ),
           ),
+          const SizedBox(width: 8),
           Container(
             padding: const EdgeInsets.symmetric(
               horizontal: 9,
@@ -256,6 +339,7 @@ class HomePage extends StatelessWidget {
       backgroundColor: Colors.white,
       elevation: 0,
       selectedIndex: 0,
+      height: 72,
       destinations: const [
         NavigationDestination(
           icon: Icon(Icons.home_outlined),
@@ -296,7 +380,7 @@ class _ActionCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 128,
+      height: 126,
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -334,6 +418,84 @@ class _ActionCard extends StatelessWidget {
           Text(
             subtitle,
             style: const TextStyle(
+              color: Color(0xFF6B7470),
+              fontSize: 12,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _NotificationCard extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 126,
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(
+          color: const Color(0xFFE2E7E4),
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Stack(
+            clipBehavior: Clip.none,
+            children: [
+              Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: const Color(0xFFFFF2DF),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: const Icon(
+                  Icons.notifications_none_outlined,
+                  color: Color(0xFFC57A20),
+                  size: 21,
+                ),
+              ),
+              Positioned(
+                right: -4,
+                top: -4,
+                child: Container(
+                  width: 18,
+                  height: 18,
+                  alignment: Alignment.center,
+                  decoration: const BoxDecoration(
+                    color: Color(0xFFD94B4B),
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Text(
+                    '3',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 9,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const Spacer(),
+          const Text(
+            'Notifications',
+            style: TextStyle(
+              color: Color(0xFF17211E),
+              fontSize: 13,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          const SizedBox(height: 2),
+          const Text(
+            '3 nouvelles',
+            style: TextStyle(
               color: Color(0xFF6B7470),
               fontSize: 12,
             ),
