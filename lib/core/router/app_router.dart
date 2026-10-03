@@ -1,5 +1,7 @@
 
 import 'package:go_router/go_router.dart';
+
+import '../../features/maps/presentation/pages/map_page.dart';
 import '../../features/auth/presentation/pages/register_page.dart';
 import '../../features/home/presentation/pages/home_page.dart';
 import '../../features/auth/presentation/pages/login_page.dart';
@@ -44,6 +46,13 @@ class AppRouter {
     return const HomePage();
    },
   ),
+
+ GoRoute(
+  path: '/map',
+  builder: (context, state) {
+    return const MapPage();
+  },
+),
     ],
   );
 }

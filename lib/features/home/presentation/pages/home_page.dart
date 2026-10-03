@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:go_router/go_router.dart';
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
@@ -19,7 +19,7 @@ class HomePage extends StatelessWidget {
               const SizedBox(height: 30),
               _buildSectionTitle('Actions rapides'),
               const SizedBox(height: 14),
-              _buildQuickActions(),
+              _buildQuickActions(context),
               const SizedBox(height: 30),
               _buildSectionHeader(
                 title: 'Derniers terrains consultés',
@@ -31,7 +31,7 @@ class HomePage extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: _buildBottomNavigation(),
+      bottomNavigationBar: _buildBottomNavigation(context),
     );
   }
 
@@ -211,7 +211,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _buildQuickActions() {
+  Widget _buildQuickActions(BuildContext context){
     return Column(
       children: [
         Row(
@@ -241,6 +241,9 @@ class HomePage extends StatelessWidget {
                 icon: Icons.map_outlined,
                 title: 'Carte',
                 subtitle: 'explorer',
+                onTap: () {
+                    context.go('/map');
+                  },
               ),
             ),
             const SizedBox(width: 12),
@@ -334,13 +337,18 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _buildBottomNavigation() {
+ Widget _buildBottomNavigation(BuildContext context) {
     return NavigationBar(
       backgroundColor: Colors.white,
       elevation: 0,
       selectedIndex: 0,
       height: 72,
-      destinations: const [
+      onDestinationSelected: (index) {
+        if (index == 1) {
+          context.go('/map');
+        }
+      },
+  destinations: const [
         NavigationDestination(
           icon: Icon(Icons.home_outlined),
           selectedIcon: Icon(Icons.home),
@@ -370,61 +378,70 @@ class _ActionCard extends StatelessWidget {
   final IconData icon;
   final String title;
   final String subtitle;
+  final VoidCallback? onTap;
 
   const _ActionCard({
     required this.icon,
     required this.title,
     required this.subtitle,
+    this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 126,
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(
-          color: const Color(0xFFE2E7E4),
+      return Material(
+    color: Colors.transparent,
+    child: GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: onTap,
+      child: Container(
+        height: 126,
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(18),
+          border: Border.all(
+            color: const Color(0xFFE2E7E4),
+          ),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                color: const Color(0xFFEAF5EF),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Icon(
+                icon,
+                color: const Color(0xFF176B87),
+                size: 21,
+              ),
+            ),
+            const Spacer(),
+            Text(
+              title,
+              style: const TextStyle(
+                color: Color(0xFF17211E),
+                fontSize: 13,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+            const SizedBox(height: 2),
+            Text(
+              subtitle,
+              style: const TextStyle(
+                color: Color(0xFF6B7470),
+                fontSize: 12,
+              ),
+            ),
+          ],
         ),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            width: 40,
-            height: 40,
-            decoration: BoxDecoration(
-              color: const Color(0xFFEAF5EF),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Icon(
-              icon,
-              color: const Color(0xFF176B87),
-              size: 21,
-            ),
-          ),
-          const Spacer(),
-          Text(
-            title,
-            style: const TextStyle(
-              color: Color(0xFF17211E),
-              fontSize: 13,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-          const SizedBox(height: 2),
-          Text(
-            subtitle,
-            style: const TextStyle(
-              color: Color(0xFF6B7470),
-              fontSize: 12,
-            ),
-          ),
-        ],
-      ),
-    );
+    ),
+  );
   }
 }
 
