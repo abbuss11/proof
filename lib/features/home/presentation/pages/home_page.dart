@@ -221,6 +221,9 @@ class HomePage extends StatelessWidget {
                 icon: Icons.add_location_alt_outlined,
                 title: 'Enregistrer',
                 subtitle: 'un terrain',
+                onTap: () {
+                     context.go('/register-land');
+                    },
               ),
             ),
             const SizedBox(width: 12),
@@ -229,6 +232,9 @@ class HomePage extends StatelessWidget {
                 icon: Icons.landscape_outlined,
                 title: 'Mes terrains',
                 subtitle: 'consulter',
+                onTap: () {
+                 context.go('/my-lands');
+                },
               ),
             ),
           ],

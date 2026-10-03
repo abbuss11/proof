@@ -7,6 +7,8 @@ import '../../features/home/presentation/pages/home_page.dart';
 import '../../features/auth/presentation/pages/login_page.dart';
 import '../../features/auth/presentation/pages/onboarding_page.dart';
 import '../../features/auth/presentation/pages/splash_page.dart';
+import '../../features/lands/presentation/pages/register_land_page.dart';
+import '../../features/lands/presentation/pages/my_lands_page.dart';
 
 class AppRouter {
   AppRouter._();
@@ -51,6 +53,20 @@ class AppRouter {
   path: '/map',
   builder: (context, state) {
     return const MapPage();
+  },
+),
+
+GoRoute(
+  path: '/register-land',
+  builder: (context, state) {
+    return const RegisterLandPage();
+  },
+),
+
+GoRoute(
+  path: '/my-lands',
+  builder: (context, state) {
+    return const MyLandsPage();
   },
 ),
     ],

@@ -10,6 +10,7 @@ class MapPage extends StatefulWidget {
 }
 
 class _MapPageState extends State<MapPage> {
+  
   bool _isLoadingLocation = false;
 
   Future<void> _getCurrentLocation() async {
@@ -340,6 +341,7 @@ class _LegendItem extends StatelessWidget {
     required this.label,
   });
 
+ 
   @override
   Widget build(BuildContext context) {
     return Row(
