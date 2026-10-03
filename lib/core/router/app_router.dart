@@ -1,4 +1,3 @@
-
 import 'package:go_router/go_router.dart';
 
 import '../../features/maps/presentation/pages/map_page.dart';
@@ -9,25 +8,37 @@ import '../../features/auth/presentation/pages/onboarding_page.dart';
 import '../../features/auth/presentation/pages/splash_page.dart';
 import '../../features/lands/presentation/pages/register_land_page.dart';
 import '../../features/lands/presentation/pages/my_lands_page.dart';
+import '../../features/lands/presentation/pages/land_detail_page.dart';
+import '../../features/verification/presentation/pages/verification_page.dart';
+import '../../features/lands/presentation/pages/land_history_page.dart';
 
 class AppRouter {
   AppRouter._();
 
   static final GoRouter router = GoRouter(
-    initialLocation: '/splash',
+    initialLocation: '/land-detail',
     routes: [
+      GoRoute(
+        path: '/verification',
+        builder: (context, state) {
+          return const VerificationPage();
+        },
+      ),
+
       GoRoute(
         path: '/splash',
         builder: (context, state) {
           return const SplashPage();
         },
       ),
+
       GoRoute(
         path: '/onboarding',
         builder: (context, state) {
           return const OnboardingPage();
         },
       ),
+
       GoRoute(
         path: '/login',
         builder: (context, state) {
@@ -36,39 +47,53 @@ class AppRouter {
       ),
 
       GoRoute(
-  path: '/register',
-  builder: (context, state) {
-    return const RegisterPage();
+        path: '/register',
+        builder: (context, state) {
+          return const RegisterPage();
+        },
+      ),
+
+      GoRoute(
+        path: '/home',
+        builder: (context, state) {
+          return const HomePage();
+        },
+      ),
+
+      GoRoute(
+        path: '/map',
+        builder: (context, state) {
+          return const MapPage();
+        },
+      ),
+
+      GoRoute(
+        path: '/register-land',
+        builder: (context, state) {
+          return const RegisterLandPage();
+        },
+      ),
+
+      GoRoute(
+        path: '/my-lands',
+        builder: (context, state) {
+          return const MyLandsPage();
+        },
+      ),
+
+      GoRoute(
+        path: '/land-detail',
+        builder: (context, state) {
+          return const LandDetailPage();
+        },
+      ),
+
+      GoRoute(
+      path: '/land-history',
+      builder: (context, state) {
+        return const LandHistoryPage();
      },
-    ),
-
-    GoRoute(
-  path: '/home',
-  builder: (context, state) {
-    return const HomePage();
-   },
-  ),
-
- GoRoute(
-  path: '/map',
-  builder: (context, state) {
-    return const MapPage();
-  },
-),
-
-GoRoute(
-  path: '/register-land',
-  builder: (context, state) {
-    return const RegisterLandPage();
-  },
-),
-
-GoRoute(
-  path: '/my-lands',
-  builder: (context, state) {
-    return const MyLandsPage();
-  },
-),
+   ),
     ],
   );
 }
