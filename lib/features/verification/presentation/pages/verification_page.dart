@@ -21,7 +21,7 @@ class _VerificationPageState extends State<VerificationPage> {
   }
 
   void _verifyLand() {
-    final reference = _referenceController.text.trim();
+    final reference = _referenceController.text.trim().toUpperCase();
 
     if (reference.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -34,12 +34,26 @@ class _VerificationPageState extends State<VerificationPage> {
       return;
     }
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text(
-          'Recherche du terrain...',
+    const validReferences = {
+      'LAND-001',
+      'LAND-002',
+      'LAND-003',
+    };
+
+    if (!validReferences.contains(reference)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Aucun terrain trouvé avec cette référence.',
+          ),
         ),
-      ),
+      );
+      return;
+    }
+
+    context.go(
+      '/land-detail',
+      extra: reference,
     );
   }
 
@@ -410,4 +424,3 @@ class _VerificationPageState extends State<VerificationPage> {
     );
   }
 }
-
