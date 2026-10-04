@@ -12,6 +12,7 @@ import '../../features/lands/presentation/pages/land_detail_page.dart';
 import '../../features/verification/presentation/pages/verification_page.dart';
 import '../../features/lands/presentation/pages/land_history_page.dart';
 import '../../features/transfers/presentation/pages/transfer_page.dart';
+import '../../features/lands/presentation/pages/dispute_page.dart';
 
 class AppRouter {
   AppRouter._();
@@ -114,6 +115,14 @@ class AppRouter {
       );
      },
    ),
+
+   GoRoute(
+    path: '/dispute',
+    builder: (context, state) {
+      final landId = state.extra as String? ?? 'LAND-001';
+      return DisputePage(landId: landId);
+    },
+  ),
     ],
   );
 }

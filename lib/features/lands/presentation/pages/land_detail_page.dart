@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -74,8 +75,7 @@ class LandDetailPage extends StatelessWidget {
     ),
   };
 
-  _LandDetails get _land =>
-      _lands[landId] ?? _lands['LAND-001']!;
+  _LandDetails get _land => _lands[landId] ?? _lands['LAND-001']!;
 
   @override
   Widget build(BuildContext context) {
@@ -410,6 +410,39 @@ class LandDetailPage extends StatelessWidget {
               foregroundColor: const Color(0xFF123B32),
               side: const BorderSide(
                 color: Color(0xFF2FA66A),
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(14),
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(height: 12),
+        SizedBox(
+          height: 52,
+          width: double.infinity,
+          child: OutlinedButton.icon(
+            onPressed: () {
+              context.go(
+                '/dispute',
+                extra: landId,
+              );
+            },
+            icon: const Icon(
+              Icons.report_problem_outlined,
+              size: 20,
+            ),
+            label: const Text(
+              'Signaler un litige',
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+            style: OutlinedButton.styleFrom(
+              foregroundColor: const Color(0xFFC84C4C),
+              side: const BorderSide(
+                color: Color(0xFFE3A0A0),
               ),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(14),
