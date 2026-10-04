@@ -1,8 +1,81 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+class _LandDetails {
+  final String title;
+  final String reference;
+  final String status;
+  final String type;
+  final String area;
+  final String registrationDate;
+  final String address;
+  final String latitude;
+  final String longitude;
+  final String owner;
+
+  const _LandDetails({
+    required this.title,
+    required this.reference,
+    required this.status,
+    required this.type,
+    required this.area,
+    required this.registrationDate,
+    required this.address,
+    required this.latitude,
+    required this.longitude,
+    required this.owner,
+  });
+}
+
 class LandDetailPage extends StatelessWidget {
-  const LandDetailPage({super.key});
+  final String landId;
+
+  const LandDetailPage({
+    super.key,
+    required this.landId,
+  });
+
+  static const Map<String, _LandDetails> _lands = {
+    'LAND-001': _LandDetails(
+      title: 'Terrain résidentiel',
+      reference: 'LAND-001',
+      status: 'Disponible',
+      type: 'Résidentiel',
+      area: '500 m²',
+      registrationDate: '12 septembre 2026',
+      address: 'Localisation enregistrée',
+      latitude: '0.3901',
+      longitude: '9.4544',
+      owner: 'Propriétaire enregistré',
+    ),
+    'LAND-002': _LandDetails(
+      title: 'Terrain commercial',
+      reference: 'LAND-002',
+      status: 'En transfert',
+      type: 'Commercial',
+      area: '800 m²',
+      registrationDate: '18 août 2026',
+      address: 'Localisation enregistrée',
+      latitude: '0.3918',
+      longitude: '9.4572',
+      owner: 'Propriétaire enregistré',
+    ),
+    'LAND-003': _LandDetails(
+      title: 'Terrain familial',
+      reference: 'LAND-003',
+      status: 'En litige',
+      type: 'Familial',
+      area: '650 m²',
+      registrationDate: '03 mars 2025',
+      address: 'Localisation enregistrée',
+      latitude: '0.3884',
+      longitude: '9.4518',
+      owner: 'Propriétaire enregistré',
+    ),
+  };
+
+  _LandDetails get _land =>
+      _lands[landId] ?? _lands['LAND-001']!;
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +85,7 @@ class LandDetailPage extends StatelessWidget {
         backgroundColor: const Color(0xFFF7F8F6),
         elevation: 0,
         leading: IconButton(
-          onPressed: () => context.go('/verification'),
+          onPressed: () => context.go('/my-lands'),
           icon: const Icon(
             Icons.arrow_back,
             color: Color(0xFF17211E),
@@ -45,6 +118,9 @@ class LandDetailPage extends StatelessWidget {
   }
 
   Widget _buildHeader() {
+    final statusColor = _getStatusColor();
+    final statusBackground = _getStatusBackground();
+
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -77,22 +153,22 @@ class LandDetailPage extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 14),
-              const Expanded(
+              Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Terrain résidentiel',
-                      style: TextStyle(
+                      _land.title,
+                      style: const TextStyle(
                         color: Color(0xFF17211E),
                         fontSize: 17,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
-                    SizedBox(height: 4),
+                    const SizedBox(height: 4),
                     Text(
-                      'LAND-001',
-                      style: TextStyle(
+                      _land.reference,
+                      style: const TextStyle(
                         color: Color(0xFF8A938F),
                         fontSize: 12,
                       ),
@@ -106,13 +182,13 @@ class LandDetailPage extends StatelessWidget {
                   vertical: 7,
                 ),
                 decoration: BoxDecoration(
-                  color: const Color(0xFFEAF5EF),
+                  color: statusBackground,
                   borderRadius: BorderRadius.circular(9),
                 ),
-                child: const Text(
-                  'Disponible',
+                child: Text(
+                  _land.status,
                   style: TextStyle(
-                    color: Color(0xFF238452),
+                    color: statusColor,
                     fontSize: 11,
                     fontWeight: FontWeight.w600,
                   ),
@@ -146,17 +222,17 @@ class LandDetailPage extends StatelessWidget {
         _buildInfoRow(
           icon: Icons.category_outlined,
           label: 'Type',
-          value: 'Résidentiel',
+          value: _land.type,
         ),
         _buildInfoRow(
           icon: Icons.square_foot_outlined,
           label: 'Superficie',
-          value: '500 m²',
+          value: _land.area,
         ),
         _buildInfoRow(
           icon: Icons.calendar_today_outlined,
           label: 'Date d’enregistrement',
-          value: '12 septembre 2026',
+          value: _land.registrationDate,
         ),
       ],
     );
@@ -169,17 +245,17 @@ class LandDetailPage extends StatelessWidget {
         _buildInfoRow(
           icon: Icons.location_on_outlined,
           label: 'Adresse',
-          value: 'Localisation enregistrée',
+          value: _land.address,
         ),
         _buildInfoRow(
           icon: Icons.explore_outlined,
           label: 'Latitude',
-          value: '0.3901',
+          value: _land.latitude,
         ),
         _buildInfoRow(
           icon: Icons.explore_outlined,
           label: 'Longitude',
-          value: '9.4544',
+          value: _land.longitude,
         ),
       ],
     );
@@ -192,7 +268,7 @@ class LandDetailPage extends StatelessWidget {
         _buildInfoRow(
           icon: Icons.person_outline,
           label: 'Nom',
-          value: 'Propriétaire enregistré',
+          value: _land.owner,
         ),
         _buildInfoRow(
           icon: Icons.verified_outlined,
@@ -283,32 +359,81 @@ class LandDetailPage extends StatelessWidget {
   }
 
   Widget _buildHistoryButton(BuildContext context) {
-    return SizedBox(
-      height: 52,
-      child: ElevatedButton.icon(
-        onPressed: () {
-           context.go('/land-history');
-        },
-        icon: const Icon(
-          Icons.history,
-          size: 19,
-        ),
-        label: const Text(
-          'Voir l’historique',
-          style: TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w700,
+    return Column(
+      children: [
+        SizedBox(
+          height: 52,
+          width: double.infinity,
+          child: ElevatedButton.icon(
+            onPressed: () {
+              context.go('/land-history');
+            },
+            icon: const Icon(
+              Icons.history,
+              size: 19,
+            ),
+            label: const Text(
+              'Voir l’historique',
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
           ),
         ),
-        style: ElevatedButton.styleFrom(
-          backgroundColor: const Color(0xFF123B32),
-          foregroundColor: Colors.white,
-          elevation: 0,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(14),
+        const SizedBox(height: 12),
+        SizedBox(
+          height: 52,
+          width: double.infinity,
+          child: OutlinedButton.icon(
+            onPressed: () {
+              context.go('/transfer');
+            },
+            icon: const Icon(
+              Icons.swap_horiz_outlined,
+              size: 20,
+            ),
+            label: const Text(
+              'Transférer la propriété',
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+            style: OutlinedButton.styleFrom(
+              foregroundColor: const Color(0xFF123B32),
+              side: const BorderSide(
+                color: Color(0xFF2FA66A),
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(14),
+              ),
+            ),
           ),
         ),
-      ),
+      ],
     );
+  }
+
+  Color _getStatusColor() {
+    switch (_land.status) {
+      case 'En transfert':
+        return const Color(0xFFE5A23C);
+      case 'En litige':
+        return const Color(0xFFD94B4B);
+      default:
+        return const Color(0xFF238452);
+    }
+  }
+
+  Color _getStatusBackground() {
+    switch (_land.status) {
+      case 'En transfert':
+        return const Color(0xFFFFF4E2);
+      case 'En litige':
+        return const Color(0xFFFFEAEA);
+      default:
+        return const Color(0xFFEAF5EF);
+    }
   }
 }

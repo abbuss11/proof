@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -57,6 +56,9 @@ class MyLandsPage extends StatelessWidget {
             status: 'Disponible',
             statusColor: const Color(0xFF2FA66A),
             statusBackground: const Color(0xFFEAF5EF),
+            onTap: () {
+              context.go('/land-detail', extra: 'LAND-001');
+            },
           ),
 
           const SizedBox(height: 14),
@@ -68,6 +70,9 @@ class MyLandsPage extends StatelessWidget {
             status: 'En transfert',
             statusColor: const Color(0xFFE5A23C),
             statusBackground: const Color(0xFFFFF4E2),
+            onTap: () {
+              context.go('/land-detail', extra: 'LAND-002');
+            },
           ),
 
           const SizedBox(height: 14),
@@ -79,6 +84,9 @@ class MyLandsPage extends StatelessWidget {
             status: 'En litige',
             statusColor: const Color(0xFFD94B4B),
             statusBackground: const Color(0xFFFFEAEA),
+            onTap: () {
+              context.go('/land-detail', extra: 'LAND-003');
+            },
           ),
 
           const SizedBox(height: 24),
@@ -123,108 +131,115 @@ class MyLandsPage extends StatelessWidget {
     required String status,
     required Color statusColor,
     required Color statusBackground,
+    required VoidCallback onTap,
   }) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
         borderRadius: BorderRadius.circular(18),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.06),
-            blurRadius: 14,
-            offset: const Offset(0, 5),
+        child: Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(18),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.06),
+                blurRadius: 14,
+                offset: const Offset(0, 5),
+              ),
+            ],
           ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                width: 44,
-                height: 44,
-                decoration: BoxDecoration(
-                  color: const Color(0xFFEAF5EF),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: const Icon(
-                  Icons.landscape_outlined,
-                  color: Color(0xFF238452),
-                  size: 22,
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      title,
-                      style: const TextStyle(
-                        color: Color(0xFF17211E),
-                        fontSize: 15,
-                        fontWeight: FontWeight.w700,
-                      ),
+              Row(
+                children: [
+                  Container(
+                    width: 44,
+                    height: 44,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFEAF5EF),
+                      borderRadius: BorderRadius.circular(12),
                     ),
-                    const SizedBox(height: 3),
-                    Text(
-                      reference,
-                      style: const TextStyle(
-                        color: Color(0xFF8A938F),
-                        fontSize: 12,
-                      ),
+                    child: const Icon(
+                      Icons.landscape_outlined,
+                      color: Color(0xFF238452),
+                      size: 22,
                     ),
-                  ],
-                ),
-              ),
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 9,
-                  vertical: 6,
-                ),
-                decoration: BoxDecoration(
-                  color: statusBackground,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Text(
-                  status,
-                  style: TextStyle(
-                    color: statusColor,
-                    fontSize: 11,
-                    fontWeight: FontWeight.w600,
                   ),
-                ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          title,
+                          style: const TextStyle(
+                            color: Color(0xFF17211E),
+                            fontSize: 15,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        const SizedBox(height: 3),
+                        Text(
+                          reference,
+                          style: const TextStyle(
+                            color: Color(0xFF8A938F),
+                            fontSize: 12,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 9,
+                      vertical: 6,
+                    ),
+                    decoration: BoxDecoration(
+                      color: statusBackground,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Text(
+                      status,
+                      style: TextStyle(
+                        color: statusColor,
+                        fontSize: 11,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 14),
+              const Divider(
+                height: 1,
+                color: Color(0xFFE8ECE8),
+              ),
+              const SizedBox(height: 12),
+              Row(
+                children: [
+                  const Icon(
+                    Icons.location_on_outlined,
+                    color: Color(0xFF6B7470),
+                    size: 17,
+                  ),
+                  const SizedBox(width: 7),
+                  Text(
+                    location,
+                    style: const TextStyle(
+                      color: Color(0xFF6B7470),
+                      fontSize: 12,
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
-          const SizedBox(height: 14),
-          const Divider(
-            height: 1,
-            color: Color(0xFFE8ECE8),
-          ),
-          const SizedBox(height: 12),
-          Row(
-            children: [
-              const Icon(
-                Icons.location_on_outlined,
-                color: Color(0xFF6B7470),
-                size: 17,
-              ),
-              const SizedBox(width: 7),
-              Text(
-                location,
-                style: const TextStyle(
-                  color: Color(0xFF6B7470),
-                  fontSize: 12,
-                ),
-              ),
-            ],
-          ),
-        ],
+        ),
       ),
     );
   }
 }
-

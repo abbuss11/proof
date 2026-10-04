@@ -11,12 +11,13 @@ import '../../features/lands/presentation/pages/my_lands_page.dart';
 import '../../features/lands/presentation/pages/land_detail_page.dart';
 import '../../features/verification/presentation/pages/verification_page.dart';
 import '../../features/lands/presentation/pages/land_history_page.dart';
+import '../../features/transfers/presentation/pages/transfer_page.dart';
 
 class AppRouter {
   AppRouter._();
 
   static final GoRouter router = GoRouter(
-    initialLocation: '/land-detail',
+    initialLocation: '/splash',
     routes: [
       GoRoute(
         path: '/verification',
@@ -82,10 +83,14 @@ class AppRouter {
       ),
 
       GoRoute(
-        path: '/land-detail',
-        builder: (context, state) {
-          return const LandDetailPage();
-        },
+          path: '/land-detail',
+          builder: (context, state) {
+            final landId = state.extra as String? ?? 'LAND-001';
+
+            return LandDetailPage(
+              landId: landId,
+            );
+          },
       ),
 
       GoRoute(
@@ -94,6 +99,13 @@ class AppRouter {
         return const LandHistoryPage();
      },
    ),
+
+    GoRoute(
+    path: '/transfer',
+    builder: (context, state) {
+      return const TransferPage();
+    },
+  ),
     ],
   );
 }
