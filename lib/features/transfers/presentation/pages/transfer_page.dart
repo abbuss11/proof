@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -453,10 +454,9 @@ class _TransferPageState extends State<TransferPage> {
                 icon: Icons.visibility_outlined,
                 label: 'Voir',
                 onPressed: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Aperçu du certificat.'),
-                    ),
+                  context.go(
+                    '/certificate',
+                    extra: widget.landId,
                   );
                 },
               ),

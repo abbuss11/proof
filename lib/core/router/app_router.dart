@@ -15,6 +15,8 @@ import '../../features/transfers/presentation/pages/transfer_page.dart';
 import '../../features/lands/presentation/pages/dispute_page.dart';
 import '../../features/profile/presentation/pages/profile_page.dart';
 import '../../features/settings/presentation/pages/settings_page.dart';
+import '../../features/certificate/presentation/pages/certificate_page.dart';
+
 
 class AppRouter {
   AppRouter._();
@@ -135,6 +137,14 @@ class AppRouter {
       path: '/settings',
       builder: (context, state) {
         return const SettingsPage();
+      },
+    ),
+
+    GoRoute(
+      path: '/certificate',
+      builder: (context, state) {
+        final landId = state.extra as String? ?? 'LAND-001';
+        return CertificatePage(landId: landId);
       },
     ),
     ],
