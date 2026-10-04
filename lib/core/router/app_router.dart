@@ -13,6 +13,8 @@ import '../../features/verification/presentation/pages/verification_page.dart';
 import '../../features/lands/presentation/pages/land_history_page.dart';
 import '../../features/transfers/presentation/pages/transfer_page.dart';
 import '../../features/lands/presentation/pages/dispute_page.dart';
+import '../../features/profile/presentation/pages/profile_page.dart';
+import '../../features/settings/presentation/pages/settings_page.dart';
 
 class AppRouter {
   AppRouter._();
@@ -123,6 +125,18 @@ class AppRouter {
       return DisputePage(landId: landId);
     },
   ),
+
+  GoRoute( path: '/profile', builder: (context, state)
+   { return const ProfilePage(); 
+      },
+    ),
+
+    GoRoute(
+      path: '/settings',
+      builder: (context, state) {
+        return const SettingsPage();
+      },
+    ),
     ],
   );
 }

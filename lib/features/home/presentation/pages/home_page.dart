@@ -352,6 +352,8 @@ class HomePage extends StatelessWidget {
       onDestinationSelected: (index) {
         if (index == 1) {
           context.go('/map');
+        } else if (index == 3) {
+          context.go('/profile');
         }
       },
   destinations: const [
