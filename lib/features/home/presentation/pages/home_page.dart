@@ -1,5 +1,7 @@
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
@@ -15,7 +17,7 @@ class HomePage extends StatelessWidget {
             children: [
               _buildHeader(),
               const SizedBox(height: 28),
-              _buildVerificationCard(),
+              _buildVerificationCard(context),
               const SizedBox(height: 30),
               _buildSectionTitle('Actions rapides'),
               const SizedBox(height: 14),
@@ -42,9 +44,9 @@ class HomePage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              const Text(
                 'Bonjour, Souveraine',
-                style: const TextStyle(
+                style: TextStyle(
                   color: Color(0xFF17211E),
                   fontSize: 24,
                   fontWeight: FontWeight.w700,
@@ -82,99 +84,104 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _buildVerificationCard() {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: const Color(0xFF123B32),
-        borderRadius: BorderRadius.circular(22),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Container(
-                width: 40,
-                height: 40,
-                decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.10),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: const Icon(
-                  Icons.verified_outlined,
-                  color: Color(0xFF75D59E),
-                  size: 21,
-                ),
-              ),
-              const SizedBox(width: 12),
-              const Expanded(
-                child: Text(
-                  'Vérifier un terrain',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 8),
-          Text(
-            'Recherchez un terrain par identifiant ou QR code.',
-            style: TextStyle(
-              color: Colors.white.withValues(alpha: 0.68),
-              fontSize: 13,
-              height: 1.4,
-            ),
-          ),
-          const SizedBox(height: 18),
-          Container(
-            height: 52,
-            padding: const EdgeInsets.symmetric(horizontal: 15),
-            decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.10),
-              borderRadius: BorderRadius.circular(14),
-              border: Border.all(
-                color: Colors.white.withValues(alpha: 0.14),
-              ),
-            ),
-            child: Row(
+  Widget _buildVerificationCard(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        context.go('/verification');
+      },
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          color: const Color(0xFF123B32),
+          borderRadius: BorderRadius.circular(22),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
               children: [
-                Icon(
-                  Icons.search,
-                  color: Colors.white.withValues(alpha: 0.72),
-                  size: 21,
-                ),
-                const SizedBox(width: 11),
-                Expanded(
-                  child: Text(
-                    'ID du terrain',
-                    style: TextStyle(
-                      color: Colors.white.withValues(alpha: 0.58),
-                      fontSize: 13,
-                    ),
-                  ),
-                ),
                 Container(
-                  width: 34,
-                  height: 34,
+                  width: 42,
+                  height: 42,
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.12),
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(12),
                   ),
                   child: const Icon(
-                    Icons.qr_code_scanner,
-                    color: Colors.white,
-                    size: 19,
+                    Icons.verified_outlined,
+                    color: Color(0xFF75D59E),
+                    size: 21,
+                  ),
+                ),
+                const SizedBox(width: 12),
+                const Expanded(
+                  child: Text(
+                    'Vérifier un terrain',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                 ),
               ],
             ),
-          ),
-        ],
+            const SizedBox(height: 8),
+            Text(
+              'Recherchez un terrain par identifiant ou QR code.',
+              style: TextStyle(
+                color: Colors.white.withValues(alpha: 0.68),
+                fontSize: 13,
+                height: 1.4,
+              ),
+            ),
+            const SizedBox(height: 18),
+            Container(
+              height: 52,
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              decoration: BoxDecoration(
+                color: Colors.white.withValues(alpha: 0.10),
+                borderRadius: BorderRadius.circular(14),
+                border: Border.all(
+                  color: Colors.white.withValues(alpha: 0.14),
+                ),
+              ),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.search,
+                    color: Colors.white.withValues(alpha: 0.72),
+                    size: 21,
+                  ),
+                  const SizedBox(width: 11),
+                  Expanded(
+                    child: Text(
+                      'ID du terrain',
+                      style: TextStyle(
+                        color: Colors.white.withValues(alpha: 0.58),
+                        fontSize: 13,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: 34,
+                    height: 34,
+                    decoration: BoxDecoration(
+                      color: Colors.white.withValues(alpha: 0.12),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: const Icon(
+                      Icons.qr_code_scanner,
+                      color: Colors.white,
+                      size: 19,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -211,7 +218,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _buildQuickActions(BuildContext context){
+  Widget _buildQuickActions(BuildContext context) {
     return Column(
       children: [
         Row(
@@ -222,8 +229,8 @@ class HomePage extends StatelessWidget {
                 title: 'Enregistrer',
                 subtitle: 'un terrain',
                 onTap: () {
-                     context.go('/register-land');
-                    },
+                  context.go('/register-land');
+                },
               ),
             ),
             const SizedBox(width: 12),
@@ -233,7 +240,7 @@ class HomePage extends StatelessWidget {
                 title: 'Mes terrains',
                 subtitle: 'consulter',
                 onTap: () {
-                 context.go('/my-lands');
+                  context.go('/my-lands');
                 },
               ),
             ),
@@ -248,12 +255,12 @@ class HomePage extends StatelessWidget {
                 title: 'Carte',
                 subtitle: 'explorer',
                 onTap: () {
-                    context.go('/map');
-                  },
+                  context.go('/map');
+                },
               ),
             ),
             const SizedBox(width: 12),
-            Expanded(
+            const Expanded(
               child: _NotificationCard(),
             ),
           ],
@@ -343,7 +350,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
- Widget _buildBottomNavigation(BuildContext context) {
+  Widget _buildBottomNavigation(BuildContext context) {
     return NavigationBar(
       backgroundColor: Colors.white,
       elevation: 0,
@@ -356,7 +363,7 @@ class HomePage extends StatelessWidget {
           context.go('/profile');
         }
       },
-  destinations: const [
+      destinations: const [
         NavigationDestination(
           icon: Icon(Icons.home_outlined),
           selectedIcon: Icon(Icons.home),
@@ -397,63 +404,65 @@ class _ActionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-      return Material(
-    color: Colors.transparent,
-    child: GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onTap: onTap,
-      child: Container(
-        height: 126,
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(18),
-          border: Border.all(
-            color: const Color(0xFFE2E7E4),
+    return Material(
+      color: Colors.transparent,
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: onTap,
+        child: Container(
+          height: 126,
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(18),
+            border: Border.all(
+              color: const Color(0xFFE2E7E4),
+            ),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: const Color(0xFFEAF5EF),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Icon(
+                  icon,
+                  color: const Color(0xFF176B87),
+                  size: 21,
+                ),
+              ),
+              const Spacer(),
+              Text(
+                title,
+                style: const TextStyle(
+                  color: Color(0xFF17211E),
+                  fontSize: 13,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              const SizedBox(height: 2),
+              Text(
+                subtitle,
+                style: const TextStyle(
+                  color: Color(0xFF6B7470),
+                  fontSize: 12,
+                ),
+              ),
+            ],
           ),
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              width: 40,
-              height: 40,
-              decoration: BoxDecoration(
-                color: const Color(0xFFEAF5EF),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Icon(
-                icon,
-                color: const Color(0xFF176B87),
-                size: 21,
-              ),
-            ),
-            const Spacer(),
-            Text(
-              title,
-              style: const TextStyle(
-                color: Color(0xFF17211E),
-                fontSize: 13,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-            const SizedBox(height: 2),
-            Text(
-              subtitle,
-              style: const TextStyle(
-                color: Color(0xFF6B7470),
-                fontSize: 12,
-              ),
-            ),
-          ],
-        ),
       ),
-    ),
-  );
+    );
   }
 }
 
 class _NotificationCard extends StatelessWidget {
+  const _NotificationCard();
+
   @override
   Widget build(BuildContext context) {
     return Container(

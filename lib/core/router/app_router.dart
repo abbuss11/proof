@@ -16,6 +16,7 @@ import '../../features/lands/presentation/pages/dispute_page.dart';
 import '../../features/profile/presentation/pages/profile_page.dart';
 import '../../features/settings/presentation/pages/settings_page.dart';
 import '../../features/certificate/presentation/pages/certificate_page.dart';
+import '../../features/verification/presentation/pages/qr_scanner_page.dart';
 
 
 class AppRouter {
@@ -145,6 +146,13 @@ class AppRouter {
       builder: (context, state) {
         final landId = state.extra as String? ?? 'LAND-001';
         return CertificatePage(landId: landId);
+      },
+    ),
+
+    GoRoute(
+      path: '/qr-scanner',
+      builder: (context, state) {
+        return const QrScannerPage();
       },
     ),
     ],

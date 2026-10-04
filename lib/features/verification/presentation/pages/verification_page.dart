@@ -57,15 +57,9 @@ class _VerificationPageState extends State<VerificationPage> {
     );
   }
 
-  void _openScanner() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text(
-          'Le scanner QR sera connecté prochainement.',
-        ),
-      ),
-    );
-  }
+ void _openScanner() {
+  context.go('/qr-scanner');
+}
 
   @override
   Widget build(BuildContext context) {
