@@ -1,8 +1,96 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+class _Owner {
+  final String name;
+  final String period;
+  final String status;
+  final bool current;
+
+  const _Owner({
+    required this.name,
+    required this.period,
+    required this.status,
+    required this.current,
+  });
+}
+
 class LandHistoryPage extends StatelessWidget {
-  const LandHistoryPage({super.key});
+  final String landId;
+
+  const LandHistoryPage({
+    super.key,
+    required this.landId,
+  });
+
+  static const Map<String, List<_Owner>> _histories = {
+    'LAND-001': [
+      _Owner(
+        name: 'Jean Dupont',
+        period: 'Depuis le 20 septembre 2026',
+        status: 'Propriétaire actuel',
+        current: true,
+      ),
+      _Owner(
+        name: 'Marie Martin',
+        period: '12 juin 2024 — 20 septembre 2026',
+        status: 'Ancien propriétaire',
+        current: false,
+      ),
+      _Owner(
+        name: 'Paul Kabeya',
+        period: '03 mars 2021 — 12 juin 2024',
+        status: 'Ancien propriétaire',
+        current: false,
+      ),
+    ],
+    'LAND-002': [
+      _Owner(
+        name: 'Alain Martin',
+        period: 'Depuis le 15 septembre 2026',
+        status: 'Propriétaire actuel',
+        current: true,
+      ),
+      _Owner(
+        name: 'Sophie Bernard',
+        period: '08 janvier 2023 — 15 septembre 2026',
+        status: 'Ancien propriétaire',
+        current: false,
+      ),
+    ],
+    'LAND-003': [
+      _Owner(
+        name: 'David Kanku',
+        period: 'Depuis le 10 février 2025',
+        status: 'Propriétaire actuel',
+        current: true,
+      ),
+      _Owner(
+        name: 'Grace Ilunga',
+        period: '14 mai 2021 — 10 février 2025',
+        status: 'Ancien propriétaire',
+        current: false,
+      ),
+      _Owner(
+        name: 'Michel Tshisekedi',
+        period: '02 janvier 2018 — 14 mai 2021',
+        status: 'Ancien propriétaire',
+        current: false,
+      ),
+    ],
+  };
+
+  static const Map<String, String> _landNames = {
+    'LAND-001': 'Terrain résidentiel',
+    'LAND-002': 'Terrain commercial',
+    'LAND-003': 'Terrain familial',
+  };
+
+  List<_Owner> get _owners =>
+      _histories[landId] ?? _histories['LAND-001']!;
+
+  String get _landName =>
+      _landNames[landId] ?? 'Terrain résidentiel';
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +100,10 @@ class LandHistoryPage extends StatelessWidget {
         backgroundColor: const Color(0xFFF7F8F6),
         elevation: 0,
         leading: IconButton(
-          onPressed: () => context.go('/land-detail'),
+          onPressed: () => context.go(
+            '/land-detail',
+            extra: landId,
+          ),
           icon: const Icon(
             Icons.arrow_back,
             color: Color(0xFF17211E),
@@ -32,7 +123,6 @@ class LandHistoryPage extends StatelessWidget {
         children: [
           _buildLandHeader(),
           const SizedBox(height: 28),
-
           const Text(
             'Historique de propriété',
             style: TextStyle(
@@ -41,9 +131,7 @@ class LandHistoryPage extends StatelessWidget {
               fontWeight: FontWeight.w700,
             ),
           ),
-
           const SizedBox(height: 6),
-
           const Text(
             'Consultez les différents propriétaires enregistrés pour ce terrain.',
             style: TextStyle(
@@ -52,9 +140,7 @@ class LandHistoryPage extends StatelessWidget {
               height: 1.5,
             ),
           ),
-
           const SizedBox(height: 24),
-
           _buildOwnerTimeline(),
         ],
       ),
@@ -90,25 +176,23 @@ class LandHistoryPage extends StatelessWidget {
               size: 26,
             ),
           ),
-
           const SizedBox(width: 13),
-
-          const Expanded(
+          Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Terrain résidentiel',
-                  style: TextStyle(
+                  _landName,
+                  style: const TextStyle(
                     color: Color(0xFF17211E),
                     fontSize: 15,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
-                SizedBox(height: 4),
+                const SizedBox(height: 4),
                 Text(
-                  'LAND-001',
-                  style: TextStyle(
+                  landId,
+                  style: const TextStyle(
                     color: Color(0xFF8A938F),
                     fontSize: 12,
                   ),
@@ -116,7 +200,6 @@ class LandHistoryPage extends StatelessWidget {
               ],
             ),
           ),
-
           Container(
             padding: const EdgeInsets.symmetric(
               horizontal: 10,
@@ -142,49 +225,30 @@ class LandHistoryPage extends StatelessWidget {
 
   Widget _buildOwnerTimeline() {
     return Column(
-      children: [
-        _buildOwnerItem(
-          name: 'Souveraine Mab',
-          period: 'Depuis le 20 septembre 2026',
-          status: 'Propriétaire actuel',
-          statusColor: const Color(0xFF238452),
-          icon: Icons.person,
-          isFirst: true,
-          isLast: false,
-        ),
+      children: List.generate(
+        _owners.length,
+        (index) {
+          final owner = _owners[index];
 
-        _buildOwnerItem(
-          name: 'Marie Martin',
-          period: '12 juin 2024 — 20 septembre 2026',
-          status: 'Ancien propriétaire',
-          statusColor: const Color(0xFF6B7470),
-          icon: Icons.person_outline,
-          isFirst: false,
-          isLast: false,
-        ),
-
-        _buildOwnerItem(
-          name: 'Divin Mab',
-          period: '03 mars 2021 — 12 juin 2024',
-          status: 'Ancien propriétaire',
-          statusColor: const Color(0xFF6B7470),
-          icon: Icons.person_outline,
-          isFirst: false,
-          isLast: true,
-        ),
-      ],
+          return _buildOwnerItem(
+            owner: owner,
+            isFirst: index == 0,
+            isLast: index == _owners.length - 1,
+          );
+        },
+      ),
     );
   }
 
   Widget _buildOwnerItem({
-    required String name,
-    required String period,
-    required String status,
-    required Color statusColor,
-    required IconData icon,
+    required _Owner owner,
     required bool isFirst,
     required bool isLast,
   }) {
+    final statusColor = owner.current
+        ? const Color(0xFF238452)
+        : const Color(0xFF6B7470);
+
     return IntrinsicHeight(
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -201,12 +265,13 @@ class LandHistoryPage extends StatelessWidget {
                     shape: BoxShape.circle,
                   ),
                   child: Icon(
-                    icon,
+                    owner.current
+                        ? Icons.person
+                        : Icons.person_outline,
                     color: statusColor,
                     size: 19,
                   ),
                 ),
-
                 if (!isLast)
                   Expanded(
                     child: Container(
@@ -220,9 +285,7 @@ class LandHistoryPage extends StatelessWidget {
               ],
             ),
           ),
-
           const SizedBox(width: 14),
-
           Expanded(
             child: Padding(
               padding: EdgeInsets.only(
@@ -245,27 +308,23 @@ class LandHistoryPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      status,
+                      owner.status,
                       style: TextStyle(
                         color: statusColor,
                         fontSize: 11,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
-
                     const SizedBox(height: 7),
-
                     Text(
-                      name,
+                      owner.name,
                       style: const TextStyle(
                         color: Color(0xFF17211E),
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
-
                     const SizedBox(height: 7),
-
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -277,7 +336,7 @@ class LandHistoryPage extends StatelessWidget {
                         const SizedBox(width: 7),
                         Expanded(
                           child: Text(
-                            period,
+                            owner.period,
                             style: const TextStyle(
                               color: Color(0xFF6B7470),
                               fontSize: 12,

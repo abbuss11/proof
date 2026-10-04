@@ -366,7 +366,10 @@ class LandDetailPage extends StatelessWidget {
           width: double.infinity,
           child: ElevatedButton.icon(
             onPressed: () {
-              context.go('/land-history');
+              context.go(
+                '/land-history',
+                extra: landId,
+              );
             },
             icon: const Icon(
               Icons.history,
