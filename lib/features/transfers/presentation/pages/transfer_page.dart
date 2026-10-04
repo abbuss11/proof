@@ -2,7 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class TransferPage extends StatefulWidget {
-  const TransferPage({super.key});
+  final String landId;
+
+  const TransferPage({
+    super.key,
+    required this.landId,
+  });
 
   @override
   State<TransferPage> createState() => _TransferPageState();
@@ -16,6 +21,28 @@ class _TransferPageState extends State<TransferPage> {
 
   final _buyerPhoneController =
       TextEditingController(text: '+XXX XXX XXX XXX');
+
+  String get _landTitle {
+    switch (widget.landId) {
+      case 'LAND-002':
+        return 'Terrain commercial';
+      case 'LAND-003':
+        return 'Terrain familial';
+      default:
+        return 'Terrain résidentiel';
+    }
+  }
+
+  String get _landArea {
+    switch (widget.landId) {
+      case 'LAND-002':
+        return '800 m²';
+      case 'LAND-003':
+        return '650 m²';
+      default:
+        return '500 m²';
+    }
+  }
 
   @override
   void dispose() {
@@ -40,7 +67,10 @@ class _TransferPageState extends State<TransferPage> {
         backgroundColor: const Color(0xFFF7F8F6),
         elevation: 0,
         leading: IconButton(
-          onPressed: () => context.go('/land-detail'),
+          onPressed: () => context.go(
+            '/land-detail',
+            extra: widget.landId,
+          ),
           icon: const Icon(
             Icons.arrow_back,
             color: Color(0xFF17211E),
@@ -175,42 +205,30 @@ class _TransferPageState extends State<TransferPage> {
           'Demande de transfert',
           'Initiez le transfert de propriété vers un nouvel acquéreur.',
         ),
-
         const SizedBox(height: 24),
-
         _buildLandSummary(),
-
         const SizedBox(height: 22),
-
         _buildSectionTitle('Nouveau propriétaire'),
-
         const SizedBox(height: 12),
-
         _buildTextField(
           controller: _buyerNameController,
           label: 'Nom complet',
           icon: Icons.person_outline,
         ),
-
         const SizedBox(height: 14),
-
         _buildTextField(
           controller: _buyerPhoneController,
           label: 'Numéro de téléphone',
           icon: Icons.phone_outlined,
           keyboardType: TextInputType.phone,
         ),
-
         const SizedBox(height: 20),
-
         _buildInfoCard(
           icon: Icons.info_outline,
           text:
               'Le nouveau propriétaire devra confirmer cette demande avant son enregistrement.',
         ),
-
         const SizedBox(height: 24),
-
         _buildPrimaryButton(
           label: 'Envoyer la demande',
           onPressed: _nextStep,
@@ -227,25 +245,17 @@ class _TransferPageState extends State<TransferPage> {
           'Confirmation de l’acquéreur',
           'Le nouveau propriétaire doit confirmer son identité et accepter le transfert.',
         ),
-
         const SizedBox(height: 24),
-
         _buildBuyerCard(),
-
         const SizedBox(height: 20),
-
         _buildLandSummary(),
-
         const SizedBox(height: 24),
-
         _buildInfoCard(
           icon: Icons.verified_user_outlined,
           text:
               'La confirmation permet de poursuivre la procédure d’enregistrement du transfert.',
         ),
-
         const SizedBox(height: 28),
-
         Row(
           children: [
             Expanded(
@@ -297,13 +307,9 @@ class _TransferPageState extends State<TransferPage> {
           'Enregistrement',
           'La nouvelle propriété est en cours d’enregistrement.',
         ),
-
         const SizedBox(height: 24),
-
         _buildBuyerCard(),
-
         const SizedBox(height: 24),
-
         Container(
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
@@ -366,17 +372,13 @@ class _TransferPageState extends State<TransferPage> {
             ],
           ),
         ),
-
         const SizedBox(height: 24),
-
         _buildInfoCard(
           icon: Icons.history_outlined,
           text:
               'Le transfert sera conservé dans l’historique des propriétaires du terrain.',
         ),
-
         const SizedBox(height: 28),
-
         _buildPrimaryButton(
           label: 'Générer le nouveau certificat',
           onPressed: _nextStep,
@@ -393,9 +395,7 @@ class _TransferPageState extends State<TransferPage> {
           'Nouveau certificat',
           'Le transfert de propriété est enregistré.',
         ),
-
         const SizedBox(height: 24),
-
         Container(
           padding: const EdgeInsets.all(22),
           decoration: BoxDecoration(
@@ -422,11 +422,11 @@ class _TransferPageState extends State<TransferPage> {
               const SizedBox(height: 22),
               _buildCertificateRow(
                 'Terrain',
-                'Terrain résidentiel',
+                _landTitle,
               ),
               _buildCertificateRow(
                 'Référence',
-                'LAND-001',
+                widget.landId,
               ),
               _buildCertificateRow(
                 'Propriétaire',
@@ -443,13 +443,9 @@ class _TransferPageState extends State<TransferPage> {
             ],
           ),
         ),
-
         const SizedBox(height: 22),
-
         _buildBuyerCard(),
-
         const SizedBox(height: 24),
-
         Row(
           children: [
             Expanded(
@@ -481,9 +477,7 @@ class _TransferPageState extends State<TransferPage> {
             ),
           ],
         ),
-
         const SizedBox(height: 12),
-
         _buildCertificateAction(
           icon: Icons.share_outlined,
           label: 'Partager le certificat',
@@ -560,22 +554,22 @@ class _TransferPageState extends State<TransferPage> {
             ),
           ),
           const SizedBox(width: 13),
-          const Expanded(
+          Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Terrain résidentiel',
-                  style: TextStyle(
+                  _landTitle,
+                  style: const TextStyle(
                     color: Color(0xFF17211E),
                     fontSize: 14,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
-                SizedBox(height: 4),
+                const SizedBox(height: 4),
                 Text(
-                  'LAND-001 • 500 m²',
-                  style: TextStyle(
+                  '${widget.landId} • $_landArea',
+                  style: const TextStyle(
                     color: Color(0xFF6B7470),
                     fontSize: 11,
                   ),

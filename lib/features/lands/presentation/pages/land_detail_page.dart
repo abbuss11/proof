@@ -390,7 +390,10 @@ class LandDetailPage extends StatelessWidget {
           width: double.infinity,
           child: OutlinedButton.icon(
             onPressed: () {
-              context.go('/transfer');
+              context.go(
+                '/transfer',
+                extra: landId,
+              );
             },
             icon: const Icon(
               Icons.swap_horiz_outlined,

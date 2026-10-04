@@ -94,18 +94,26 @@ class AppRouter {
       ),
 
       GoRoute(
-      path: '/land-history',
-      builder: (context, state) {
-        return const LandHistoryPage();
-     },
-   ),
+        path: '/land-history',
+        builder: (context, state) {
+          final landId = state.extra as String? ?? 'LAND-001';
+
+          return LandHistoryPage(
+            landId: landId,
+          );
+        },
+      ),
 
     GoRoute(
-    path: '/transfer',
-    builder: (context, state) {
-      return const TransferPage();
-    },
-  ),
+      path: '/transfer',
+      builder: (context, state) {
+        final landId = state.extra as String? ?? 'LAND-001';
+
+        return TransferPage(
+          landId: landId,
+      );
+     },
+   ),
     ],
   );
 }
