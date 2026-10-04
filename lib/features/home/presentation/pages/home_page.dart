@@ -260,8 +260,12 @@ class HomePage extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 12),
-            const Expanded(
-              child: _NotificationCard(),
+            Expanded(
+              child: _NotificationCard(
+                onTap: () {
+                  context.go('/notifications');
+                },
+              ),
             ),
           ],
         ),
@@ -461,81 +465,89 @@ class _ActionCard extends StatelessWidget {
 }
 
 class _NotificationCard extends StatelessWidget {
-  const _NotificationCard();
+  final VoidCallback? onTap;
+
+  const _NotificationCard({
+    this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 126,
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(
-          color: const Color(0xFFE2E7E4),
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        height: 126,
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(18),
+          border: Border.all(
+            color: const Color(0xFFE2E7E4),
+          ),
         ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Stack(
-            clipBehavior: Clip.none,
-            children: [
-              Container(
-                width: 40,
-                height: 40,
-                decoration: BoxDecoration(
-                  color: const Color(0xFFFFF2DF),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: const Icon(
-                  Icons.notifications_none_outlined,
-                  color: Color(0xFFC57A20),
-                  size: 21,
-                ),
-              ),
-              Positioned(
-                right: -4,
-                top: -4,
-                child: Container(
-                  width: 18,
-                  height: 18,
-                  alignment: Alignment.center,
-                  decoration: const BoxDecoration(
-                    color: Color(0xFFD94B4B),
-                    shape: BoxShape.circle,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Stack(
+              clipBehavior: Clip.none,
+              children: [
+                Container(
+                  width: 40,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFFFF2DF),
+                    borderRadius: BorderRadius.circular(12),
                   ),
-                  child: const Text(
-                    '3',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 9,
-                      fontWeight: FontWeight.w700,
+                  child: const Icon(
+                    Icons.notifications_none_outlined,
+                    color: Color(0xFFC57A20),
+                    size: 21,
+                  ),
+                ),
+                Positioned(
+                  right: -4,
+                  top: -4,
+                  child: Container(
+                    width: 18,
+                    height: 18,
+                    alignment: Alignment.center,
+                    decoration: const BoxDecoration(
+                      color: Color(0xFFD94B4B),
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Text(
+                      '3',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 9,
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
                   ),
                 ),
+              ],
+            ),
+            const Spacer(),
+            const Text(
+              'Notifications',
+              style: TextStyle(
+                color: Color(0xFF17211E),
+                fontSize: 13,
+                fontWeight: FontWeight.w700,
               ),
-            ],
-          ),
-          const Spacer(),
-          const Text(
-            'Notifications',
-            style: TextStyle(
-              color: Color(0xFF17211E),
-              fontSize: 13,
-              fontWeight: FontWeight.w700,
             ),
-          ),
-          const SizedBox(height: 2),
-          const Text(
-            '3 nouvelles',
-            style: TextStyle(
-              color: Color(0xFF6B7470),
-              fontSize: 12,
+            const SizedBox(height: 2),
+            const Text(
+              '3 nouvelles',
+              style: TextStyle(
+                color: Color(0xFF6B7470),
+                fontSize: 12,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 }
+

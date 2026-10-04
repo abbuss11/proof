@@ -17,6 +17,7 @@ import '../../features/profile/presentation/pages/profile_page.dart';
 import '../../features/settings/presentation/pages/settings_page.dart';
 import '../../features/certificate/presentation/pages/certificate_page.dart';
 import '../../features/verification/presentation/pages/qr_scanner_page.dart';
+import '../../features/notifications/presentation/pages/notifications_page.dart';
 
 
 class AppRouter {
@@ -155,6 +156,13 @@ class AppRouter {
         return const QrScannerPage();
       },
     ),
+
+     GoRoute(
+        path: '/notifications',
+        builder: (context, state) {
+          return const NotificationsPage();
+        },
+      ),
     ],
   );
 }
