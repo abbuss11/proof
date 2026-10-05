@@ -1,0 +1,28 @@
+rules_version = '2';
+// Documents d'un terrain : réservés au propriétaire (lu depuis Firestore). Pièces jointes de litige : dépôt seul.
+service firebase.storage {
+  match /b/{bucket}/o {
+    function signedIn() { return request.auth != null; }
+    function okFile() {
+      return request.resource.size < 10 * 1024 * 1024
+        && request.resource.contentType.matches('image/.*|application/pdf');
+    }
+    function isLandOwner(landId) {
+      return signedIn()
+        && firestore.get(/databases/(default)/documents/lands/$(landId)).data.ownerId == request.auth.uid;
+    }
+
+    match /lands/{landId}/docs/{file} {
+      allow read, delete: if isLandOwner(landId);
+      allow create: if isLandOwner(landId) && okFile();
+      allow update: if false;
+    }
+
+    match /disputes/{uid}/{file} {
+      allow create: if signedIn() && request.auth.uid == uid && okFile();
+      allow read, update, delete: if false;
+    }
+
+    match /{allPaths=**} { allow read, write: if false; }
+  }
+}

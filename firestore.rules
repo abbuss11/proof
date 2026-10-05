@@ -1,0 +1,55 @@
+rules_version = '2';
+// PROOF — règles Firestore.
+// Principe : le client LIT ses propres données ; toute ÉCRITURE sensible
+// (terrains, transferts, transactions/hash) passe par les Cloud Functions (Admin SDK).
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() { return request.auth != null; }
+    function isSelf(uid) { return signedIn() && request.auth.uid == uid; }
+    function userKeys() {
+      return ['fullName', 'email', 'phone', 'photoUrl', 'role', 'createdAt', 'updatedAt'];
+    }
+
+    match /users/{uid} {
+      allow read: if isSelf(uid);
+      // Création : rôle forcé à "citizen" (le rôle admin ne s'attribue que via la console / Admin SDK)
+      allow create: if isSelf(uid)
+        && request.resource.data.role == 'citizen'
+        && request.resource.data.email == request.auth.token.email
+        && request.resource.data.keys().hasOnly(userKeys());
+      // Mise à jour : role et email immuables côté client
+      allow update: if isSelf(uid)
+        && request.resource.data.role == resource.data.role
+        && request.resource.data.email == resource.data.email
+        && request.resource.data.keys().hasOnly(userKeys());
+      allow delete: if false;
+    }
+
+    match /lands/{landId} {
+      allow read: if signedIn() && resource.data.ownerId == request.auth.uid;
+      allow write: if false;
+    }
+
+    match /transfers/{transferId} {
+      allow read: if signedIn() && request.auth.uid in resource.data.participants;
+      allow write: if false;
+    }
+
+    // Notifications in-app : créées par les functions ; l'utilisateur peut seulement les marquer lues
+    match /notifications/{id} {
+      allow read: if signedIn() && resource.data.userId == request.auth.uid;
+      allow update: if signedIn() && resource.data.userId == request.auth.uid
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['read']);
+      allow create, delete: if false;
+    }
+
+    // Litiges : écriture/lecture uniquement via functions (Admin SDK)
+    match /disputes/{id} { allow read, write: if false; }
+
+    // Journal : lu uniquement via la fonction verifyLand
+    match /transactions/{id} { allow read, write: if false; }
+
+    match /{document=**} { allow read, write: if false; }
+  }
+}
